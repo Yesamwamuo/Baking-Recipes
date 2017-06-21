@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <LinearLayout
+        android:id="@+id/detail_layout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/detail_fragment_height"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <FrameLayout
+            android:id="@+id/detail_media_layout"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/margin_padding_zero"
+            android:layout_weight="1">
+
+            <ImageView
+                android:id="@+id/detail_thumbnail"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <com.google.android.exoplayer2.ui.SimpleExoPlayerView
+                android:id="@+id/detail_video"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+        </FrameLayout>
+
+        <LinearLayout
+            android:id="@+id/detail_linear_layout"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/margin_padding_zero"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/step_desc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_padding_large"
+                android:gravity="center"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                tools:text="We’re always looking for the New New Thing in tech, since long before Michael Lewis coined the phrase. Often we are entirely too successful. There are so many New New Things — and so many of them fall from the sky like burned-out flares soon enough, to further litter the graveyard of Old New Things. Can we learn from them?" />
+
+            <Button
+                android:id="@+id/detail_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_padding_large"
+                android:background="@color/colorPrimary"
+                android:text="@string/next"
+                android:textColor="@color/colorWhite" />
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

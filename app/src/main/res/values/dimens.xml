@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="text_size_small">12sp</dimen>
+    <dimen name="text_size_medium">14sp</dimen>
+    <dimen name="text_size_large">18sp</dimen>
+    <dimen name="text_size_xlarge">22sp</dimen>
+    <dimen name="text_size_xxlarge">30sp</dimen>
+
+    <dimen name="margin_padding_zero">0dp</dimen>
+    <dimen name="margin_padding_xsmall">2dp</dimen>
+    <dimen name="margin_padding_small">4dp</dimen>
+    <dimen name="margin_padding_medium">8dp</dimen>
+    <dimen name="margin_padding_large">12dp</dimen>
+    <dimen name="margin_padding_large_two">16dp</dimen>
+    <dimen name="margin_padding_xlarge">24dp</dimen>
+    <dimen name="margin_padding_xxlarge">36dp</dimen>
+    <dimen name="progressbar_dimen">42dp</dimen>
+
+
+    <dimen name="text_size">17sp</dimen>
+    <dimen name="recipe_list_item_height">225dp</dimen>
+    <dimen name="step_list_item_height">100dp</dimen>
+    <dimen name="media_height">250dp</dimen>
+    <dimen name="step_master_width">400dp</dimen>
+    <dimen name="margin_padding_one_dp">1dp</dimen>
+
+    <!--
+Refer to App Widget Documentation for margin information
+http://developer.android.com/guide/topics/appwidgets/index.html#CreatingLayout
+    -->
+    <dimen name="widget_margin">8dp</dimen>
+    <dimen name="widget_ingredient_default_height">180dp</dimen>
+    <dimen name="widget_ingredient_width">200dp</dimen>
+    <dimen name="detail_fragment_height">500dp</dimen>
+    <dimen name="recipe_item_image_height">70dp</dimen>
+    <dimen name="widget_image_size">30dp</dimen>
+
+
+</resources>

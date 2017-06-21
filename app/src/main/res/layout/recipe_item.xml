@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/recipe_card"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="@dimen/margin_padding_xsmall"
+    android:layout_marginStart="@dimen/margin_padding_xsmall"
+    android:layout_marginRight="@dimen/margin_padding_xsmall"
+    android:layout_marginEnd="@dimen/margin_padding_xsmall"
+    android:layout_marginTop="@dimen/margin_padding_xsmall"
+    android:background="@drawable/list_color_selector"
+    android:elevation="@dimen/margin_padding_small"
+    >
+
+    <LinearLayout
+        android:padding="@dimen/margin_padding_small"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:padding="@dimen/margin_padding_large"
+            android:background="@color/colorPrimary"
+            android:id="@+id/image"
+            android:layout_width="@dimen/recipe_item_image_height"
+            android:layout_height="@dimen/recipe_item_image_height"
+            android:layout_gravity="center"
+            android:src="@drawable/chef_hat" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_margin="@dimen/margin_padding_large">
+
+
+            <TextView
+                android:id="@+id/recipe_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Title"
+                android:textColor="@color/primary_text"
+                tools:text="Monkey Tail" />
+
+            <TextView
+                android:id="@+id/recipe_servings"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_padding_small"
+                android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Subtitle"
+                android:textColor="@color/secondary_text"
+                tools:text="2 shots" />
+        </LinearLayout>
+
+    </LinearLayout>
+</android.support.v7.widget.CardView>
+
+
+
+
+
+
+
+
+
