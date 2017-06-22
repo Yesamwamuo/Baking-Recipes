@@ -1,4 +1,4 @@
-package com.mannysight.bakingrecipes;
+package com.mannysight.bakingrecipes.fragment;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -30,6 +30,8 @@ import com.google.android.exoplayer2.source.MediaSource;
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
 import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory;
+import com.mannysight.bakingrecipes.R;
+import com.mannysight.bakingrecipes.activity.StepsActivity;
 import com.mannysight.bakingrecipes.model.Recipe;
 import com.mannysight.bakingrecipes.model.Step;
 import com.squareup.picasso.Picasso;
@@ -39,7 +41,7 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static com.mannysight.bakingrecipes.StepsFragment.EXTRA_TEXT_STEP_INDEX;
+import static com.mannysight.bakingrecipes.fragment.StepsFragment.EXTRA_TEXT_STEP_INDEX;
 
 /**
  * Created by wamuo on 6/11/2017.
@@ -119,13 +121,11 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
         return rootView;
     }
 
-
     @Override
-    public void onDestroyView() {
-        super.onDestroyView();
+    public void onPause() {
+        super.onPause();
         releasePlayer();
     }
-
 
     private Step getStep(int stepIndex) {
         return stepsList.get(stepIndex);

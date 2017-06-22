@@ -1,4 +1,4 @@
-package com.mannysight.bakingrecipes;
+package com.mannysight.bakingrecipes.fragment;
 
 import android.content.Context;
 import android.content.Intent;
@@ -14,6 +14,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.mannysight.bakingrecipes.R;
+import com.mannysight.bakingrecipes.activity.DetailActivity;
+import com.mannysight.bakingrecipes.activity.StepsActivity;
+import com.mannysight.bakingrecipes.adapter.StepAdapter;
 import com.mannysight.bakingrecipes.model.Ingredient;
 import com.mannysight.bakingrecipes.model.Recipe;
 import com.mannysight.bakingrecipes.model.Step;
@@ -91,8 +95,8 @@ public class StepsFragment extends Fragment implements StepAdapter.StepAdapterOn
         StringBuilder sb = new StringBuilder();
         sb.append(context.getString(R.string.ingredients_text));
         sb.append("\n ");
-        for (Ingredient ingredient : ingredients){
-            String text = ingredient.getQuantity()+" "+ingredient.getMeasure()+" "+ingredient.getIngredient();
+        for (Ingredient ingredient : ingredients) {
+            String text = ingredient.getQuantity() + " " + ingredient.getMeasure() + " " + ingredient.getIngredient();
             sb.append(text);
             sb.append("\n ");
         }

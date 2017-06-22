@@ -21,7 +21,7 @@ import java.util.List;
  * Created by wamuo on 6/10/2017.
  */
 
-public class JsonUtils {
+public final class JsonUtils {
 
     public static List<Recipe> getRecipeListFromJson(String jsonString) {
         Gson gson = new Gson();

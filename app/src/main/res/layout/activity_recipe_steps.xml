@@ -2,6 +2,6 @@
 <fragment
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/master_list_fragment"
-    android:name="com.mannysight.bakingrecipes.StepsFragment"
+    android:name="com.mannysight.bakingrecipes.fragment.StepsFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent" />

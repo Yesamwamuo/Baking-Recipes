@@ -1,4 +1,4 @@
-package com.mannysight.bakingrecipes;
+package com.mannysight.bakingrecipes.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,6 +6,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 
+import com.mannysight.bakingrecipes.R;
+import com.mannysight.bakingrecipes.fragment.DetailFragment;
 import com.mannysight.bakingrecipes.model.Recipe;
 
 public class StepsActivity extends AppCompatActivity {
@@ -13,7 +15,6 @@ public class StepsActivity extends AppCompatActivity {
     public boolean mTwoPane;
     private Recipe recipe;
     private ActionBar actionBar;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +31,7 @@ public class StepsActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+
         Intent intentThatStartedThisActivity = getIntent();
         if (intentThatStartedThisActivity != null) {
             if (intentThatStartedThisActivity.hasExtra(Intent.EXTRA_TEXT)) {
@@ -52,6 +54,4 @@ public class StepsActivity extends AppCompatActivity {
             mTwoPane = false;
         }
     }
-
-
 }

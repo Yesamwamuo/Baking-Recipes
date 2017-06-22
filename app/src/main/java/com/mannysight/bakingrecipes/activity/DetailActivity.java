@@ -1,9 +1,13 @@
-package com.mannysight.bakingrecipes;
+package com.mannysight.bakingrecipes.activity;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MenuItem;
+
+import com.mannysight.bakingrecipes.R;
+import com.mannysight.bakingrecipes.fragment.DetailFragment;
 
 public class DetailActivity extends AppCompatActivity  {
     private FragmentManager fragmentManager;
@@ -31,5 +35,12 @@ public class DetailActivity extends AppCompatActivity  {
     }
 
 
-
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+            return true;
+        }
+        return false;
+    }
 }

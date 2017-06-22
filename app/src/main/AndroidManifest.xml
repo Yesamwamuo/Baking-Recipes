@@ -13,7 +13,7 @@
         android:theme="@style/AppTheme">
 
         <activity
-            android:name=".MainActivity"
+            android:name=".activity.MainActivity"
             android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -23,19 +23,19 @@
         </activity>
 
         <activity
-            android:name=".StepsActivity"
-            android:parentActivityName=".MainActivity">
+            android:name=".activity.StepsActivity"
+            android:parentActivityName=".activity.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
+                android:value=".activity.MainActivity" />
         </activity>
 
         <activity
-            android:name=".DetailActivity"
-            android:parentActivityName=".StepsActivity">
+            android:name=".activity.DetailActivity"
+            android:parentActivityName=".activity.StepsActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".StepsActivity" />
+                android:value=".activity.StepsActivity" />
         </activity>
 
         <provider

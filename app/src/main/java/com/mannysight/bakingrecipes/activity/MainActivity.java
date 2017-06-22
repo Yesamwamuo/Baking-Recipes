@@ -1,5 +1,7 @@
-package com.mannysight.bakingrecipes;
+package com.mannysight.bakingrecipes.activity;
 
+import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -20,12 +22,15 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.mannysight.bakingrecipes.R;
+import com.mannysight.bakingrecipes.adapter.RecipeAdapter;
 import com.mannysight.bakingrecipes.model.Recipe;
 import com.mannysight.bakingrecipes.sync.RecipeSyncUtils;
 import com.mannysight.bakingrecipes.utilities.JsonUtils;
 import com.mannysight.bakingrecipes.utilities.NetworkUtils;
 import com.mannysight.bakingrecipes.utilities.RecipeTestDownloader;
 import com.mannysight.bakingrecipes.utilities.SimpleIdlingResource;
+import com.mannysight.bakingrecipes.widget.RecipeWidgetProvider;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -35,8 +40,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity implements RecipeAdapter.RecipeAdapterOnClickHandler
-        , LoaderManager.LoaderCallbacks<ArrayList<Recipe>> ,
-        RecipeTestDownloader.DelayerCallback{
+        , LoaderManager.LoaderCallbacks<ArrayList<Recipe>>,
+        RecipeTestDownloader.DelayerCallback {
 
     private static final int RECIPE_LIST_LOADER = 4795;
     @BindView(R.id.recyclerview_recipes)
@@ -105,11 +110,18 @@ public class MainActivity extends AppCompatActivity implements RecipeAdapter.Rec
 
     @Override
     public void onClick(Recipe recipe) {
+        updateRecipeWidget(recipe);
         Context context = this;
         Class destinationClass = StepsActivity.class;
         Intent intentToStartStepsActivity = new Intent(context, destinationClass);
         intentToStartStepsActivity.putExtra(Intent.EXTRA_TEXT, recipe);
         startActivity(intentToStartStepsActivity);
+    }
+
+    public void updateRecipeWidget(Recipe recipe) {
+        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this);
+        int[] appWidgetIds = appWidgetManager.getAppWidgetIds(new ComponentName(this, RecipeWidgetProvider.class));
+        RecipeWidgetProvider.updateRecipeWidgets(this, appWidgetManager, recipe, appWidgetIds);
     }
 
     @Override

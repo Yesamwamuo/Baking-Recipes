@@ -5,6 +5,8 @@ import android.support.test.espresso.IdlingResource;
 import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.support.test.rule.ActivityTestRule;
 
+import com.mannysight.bakingrecipes.activity.MainActivity;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;

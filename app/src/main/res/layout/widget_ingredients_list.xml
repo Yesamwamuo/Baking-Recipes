@@ -15,6 +15,7 @@
 
         <ImageView
             android:layout_margin="@dimen/margin_padding_xsmall"
+            android:padding="@dimen/margin_padding_xsmall"
             android:id="@+id/widget_recipe_image"
             android:layout_width="@dimen/widget_image_size"
             android:layout_height="@dimen/widget_image_size"

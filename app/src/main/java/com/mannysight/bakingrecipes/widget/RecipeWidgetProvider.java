@@ -9,7 +9,7 @@ import android.net.Uri;
 import android.widget.RemoteViews;
 
 import com.mannysight.bakingrecipes.R;
-import com.mannysight.bakingrecipes.StepsActivity;
+import com.mannysight.bakingrecipes.activity.StepsActivity;
 import com.mannysight.bakingrecipes.model.Recipe;
 
 import static com.mannysight.bakingrecipes.widget.ListRemoteViewsFactory.WIDGET_RECIPE_ID;

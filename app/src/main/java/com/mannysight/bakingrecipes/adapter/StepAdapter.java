@@ -1,4 +1,4 @@
-package com.mannysight.bakingrecipes;
+package com.mannysight.bakingrecipes.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.mannysight.bakingrecipes.R;
 import com.mannysight.bakingrecipes.model.Recipe;
 import com.mannysight.bakingrecipes.model.Step;
 
@@ -19,7 +20,7 @@ import butterknife.ButterKnife;
  * Created by wamuo on 6/11/2017.
  */
 
-class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepAdapterViewHolder>{
+public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepAdapterViewHolder>{
     private ArrayList<Step> mSteps;
     private Context context;
     private Recipe mRecipe;

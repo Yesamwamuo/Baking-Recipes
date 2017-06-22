@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/master_list_fragment"
-        android:name="com.mannysight.bakingrecipes.StepsFragment"
+        android:name="com.mannysight.bakingrecipes.fragment.StepsFragment"
         android:layout_width="@dimen/margin_padding_zero"
         android:layout_weight="1"
         android:layout_height="match_parent" />

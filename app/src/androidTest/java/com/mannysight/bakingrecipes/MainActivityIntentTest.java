@@ -8,6 +8,9 @@ import android.support.test.espresso.intent.rule.IntentsTestRule;
 import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.runner.AndroidJUnit4;
 
+import com.mannysight.bakingrecipes.activity.MainActivity;
+import com.mannysight.bakingrecipes.activity.StepsActivity;
+
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
