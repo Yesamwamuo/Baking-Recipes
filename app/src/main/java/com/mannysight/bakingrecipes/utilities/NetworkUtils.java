@@ -1,14 +1,14 @@
 package com.mannysight.bakingrecipes.utilities;
 
-import android.net.Uri;
-import android.util.Log;
+import com.mannysight.bakingrecipes.api.RecipeApi;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.Scanner;
+
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
+import retrofit2.Call;
+import retrofit2.Retrofit;
+import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 /**
  * Created by wamuo on 6/10/2017.
@@ -16,46 +16,23 @@ import java.util.Scanner;
 
 public class NetworkUtils {
 
-    private static final String TAG = NetworkUtils.class.getSimpleName();
+    private static final String BASE_URL = "https://d17h27t6h515a5.cloudfront.net";
 
-    private static final String BASE_URL = "https://d17h27t6h515a5.cloudfront.net/topher/2017/May/59121517_baking/baking.json";
+    public static String getResponseFromHttpUrl() throws IOException {
 
-    public static URL getUrl() {
-        Uri builtUri = Uri.parse(BASE_URL).buildUpon()
+        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+        interceptor.setLevel(HttpLoggingInterceptor.Level.BASIC);
+
+        OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).build();
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .client(client)
+                .addConverterFactory(ScalarsConverterFactory.create())
                 .build();
+        RecipeApi api = retrofit.create(RecipeApi.class);
 
-        URL url = null;
-        try {
-            url = new URL(builtUri.toString());
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-
-        Log.v(TAG, "Built URI " + url);
-
-        return url;
-    }
-
-
-    public static String getResponseFromHttpUrl(URL url) throws IOException {
-        HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-        urlConnection.setConnectTimeout(20000);
-        urlConnection.setReadTimeout(20000);
-        try {
-            InputStream in = urlConnection.getInputStream();
-
-            Scanner scanner = new Scanner(in);
-            scanner.useDelimiter("\\A");
-
-            boolean hasInput = scanner.hasNext();
-            if (hasInput) {
-                return scanner.next();
-            } else {
-                return null;
-            }
-        } finally {
-            urlConnection.disconnect();
-        }
+        Call<String> call = api.getAllRecipes();
+        return  call.execute().body();
     }
 }
 

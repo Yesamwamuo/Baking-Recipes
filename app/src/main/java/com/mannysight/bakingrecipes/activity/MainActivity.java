@@ -17,11 +17,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.google.gson.reflect.TypeToken;
 import com.mannysight.bakingrecipes.R;
 import com.mannysight.bakingrecipes.adapter.RecipeAdapter;
 import com.mannysight.bakingrecipes.model.Recipe;
@@ -32,7 +32,7 @@ import com.mannysight.bakingrecipes.utilities.RecipeTestDownloader;
 import com.mannysight.bakingrecipes.utilities.SimpleIdlingResource;
 import com.mannysight.bakingrecipes.widget.RecipeWidgetProvider;
 
-import java.net.URL;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -78,13 +78,12 @@ public class MainActivity extends AppCompatActivity implements RecipeAdapter.Rec
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-        DisplayMetrics dm = getApplicationContext().getResources().getDisplayMetrics();
-        float screenWidth = dm.widthPixels / dm.density;
+        boolean mTwoPane = getResources().getBoolean(R.bool.isTablet);
 
-        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT && screenWidth < 600) {
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT && !mTwoPane) {
             layoutManager = new LinearLayoutManager(this);
             mRecyclerView.setLayoutManager(layoutManager);
-        } else if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT && screenWidth >= 600) {
+        } else if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT && mTwoPane) {
             layoutManager = new GridLayoutManager(this, 3);
             mRecyclerView.setLayoutManager(layoutManager);
         } else if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
@@ -144,12 +143,14 @@ public class MainActivity extends AppCompatActivity implements RecipeAdapter.Rec
 
             @Override
             public ArrayList<Recipe> loadInBackground() {
-                URL recipeUrl = NetworkUtils.getUrl();
                 try {
                     String jsonRecipeResponse = NetworkUtils
-                            .getResponseFromHttpUrl(recipeUrl);
+                            .getResponseFromHttpUrl();
 
-                    List<Recipe> recipes = JsonUtils.getRecipeListFromJson(jsonRecipeResponse);
+                    Type listType = new TypeToken<List<Recipe>>() {
+                    }.getType();
+
+                    List<Recipe> recipes = JsonUtils.getRecipeListFromJson(jsonRecipeResponse, listType);
 
                     return (ArrayList<Recipe>) recipes;
                 } catch (Exception e) {
@@ -178,7 +179,6 @@ public class MainActivity extends AppCompatActivity implements RecipeAdapter.Rec
             showMovieListDataView();
         }
     }
-
 
     @Override
     public void onLoaderReset(Loader<ArrayList<Recipe>> loader) {

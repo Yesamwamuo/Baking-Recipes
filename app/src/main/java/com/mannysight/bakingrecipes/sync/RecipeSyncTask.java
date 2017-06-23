@@ -3,13 +3,14 @@ package com.mannysight.bakingrecipes.sync;
 import android.content.ContentResolver;
 import android.content.Context;
 
+import com.google.gson.reflect.TypeToken;
 import com.mannysight.bakingrecipes.model.Recipe;
 import com.mannysight.bakingrecipes.model.RecipeContentValues;
 import com.mannysight.bakingrecipes.provider.RecipeProvider;
 import com.mannysight.bakingrecipes.utilities.JsonUtils;
 import com.mannysight.bakingrecipes.utilities.NetworkUtils;
 
-import java.net.URL;
+import java.lang.reflect.Type;
 import java.util.List;
 
 /**
@@ -22,12 +23,14 @@ public class RecipeSyncTask {
 
         try {
 
-            URL recipeUrl = NetworkUtils.getUrl();
 
             String jsonRecipeResponse = NetworkUtils
-                    .getResponseFromHttpUrl(recipeUrl);
+                    .getResponseFromHttpUrl();
 
-            List<Recipe> recipes = JsonUtils.getRecipeListFromJson(jsonRecipeResponse);
+            Type listType = new TypeToken<List<Recipe>>() {
+            }.getType();
+
+            List<Recipe> recipes = JsonUtils.getRecipeListFromJson(jsonRecipeResponse, listType);
 
             RecipeContentValues values = JsonUtils
                     .getRecipeContentValues(recipes);

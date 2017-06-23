@@ -10,6 +10,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.google.android.exoplayer2.DefaultLoadControl;
 import com.google.android.exoplayer2.DefaultRenderersFactory;
 import com.google.android.exoplayer2.ExoPlayerFactory;
@@ -28,13 +30,12 @@ import com.google.android.exoplayer2.extractor.DefaultExtractorsFactory;
 import com.google.android.exoplayer2.source.ExtractorMediaSource;
 import com.google.android.exoplayer2.source.MediaSource;
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
+import com.google.android.exoplayer2.ui.AspectRatioFrameLayout;
 import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory;
 import com.mannysight.bakingrecipes.R;
-import com.mannysight.bakingrecipes.activity.StepsActivity;
 import com.mannysight.bakingrecipes.model.Recipe;
 import com.mannysight.bakingrecipes.model.Step;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -51,6 +52,8 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
     private static final int IMAGE_ONLY_STATE = 23;
     private static final int VIDEO_ONLY_STATE = 24;
     private static final int NO_MEDIA_STATE = 25;
+    private static final String STEP_INDEX_KEY = "STEP_INDEX_KEY";
+    private static final String RECIPE_KEY = "RECIPE_KEY";
 
     @BindView(R.id.step_desc)
     TextView stepDescription;
@@ -94,6 +97,8 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onResume() {
         super.onResume();
+        mTwoPane = getResources().getBoolean(R.bool.isTablet);
+        bind(step);
     }
 
     @Override
@@ -103,20 +108,24 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
         ButterKnife.bind(this, rootView);
         context = getContext();
 
-        Intent intentThatStartedThisActivity = getActivity().getIntent();
-        if (intentThatStartedThisActivity != null) {
-            if (intentThatStartedThisActivity.hasExtra(EXTRA_TEXT_STEP_INDEX) && stepIndex == -1) {
-                stepIndex = intentThatStartedThisActivity.getIntExtra(EXTRA_TEXT_STEP_INDEX, -1);
-            }
-            if (intentThatStartedThisActivity.hasExtra(Intent.EXTRA_TEXT)) {
-                recipe = intentThatStartedThisActivity.getParcelableExtra(Intent.EXTRA_TEXT);
+        if (savedInstanceState != null) {
+            recipe = savedInstanceState.getParcelable(RECIPE_KEY);
+            stepIndex = savedInstanceState.getInt(STEP_INDEX_KEY);
+        } else {
+            Intent intentThatStartedThisActivity = getActivity().getIntent();
+            if (intentThatStartedThisActivity != null) {
+                if (intentThatStartedThisActivity.hasExtra(EXTRA_TEXT_STEP_INDEX) && stepIndex == -1) {
+                    stepIndex = intentThatStartedThisActivity.getIntExtra(EXTRA_TEXT_STEP_INDEX, -1);
+                }
+                if (intentThatStartedThisActivity.hasExtra(Intent.EXTRA_TEXT)) {
+                    recipe = intentThatStartedThisActivity.getParcelableExtra(Intent.EXTRA_TEXT);
+                }
             }
         }
 
         if (recipe != null && stepIndex != -1) {
             stepsList = (ArrayList<Step>) recipe.getSteps();
             step = getStep(stepIndex);
-            bind(step);
         }
         return rootView;
     }
@@ -157,11 +166,11 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
     }
 
     private int getState(Step step) {
-        if (step.getVideoURL().isEmpty() && !step.getThumbnailURL().isEmpty()) {
+        if (TextUtils.isEmpty(step.getVideoURL()) && !TextUtils.isEmpty(step.getThumbnailURL())) {
             return IMAGE_ONLY_STATE;
-        } else if (!step.getVideoURL().isEmpty() && step.getThumbnailURL().isEmpty()) {
+        } else if (!TextUtils.isEmpty(step.getVideoURL()) && TextUtils.isEmpty(step.getThumbnailURL())) {
             return VIDEO_ONLY_STATE;
-        } else if (step.getVideoURL().isEmpty() && step.getThumbnailURL().isEmpty()) {
+        } else if (TextUtils.isEmpty(step.getVideoURL()) && TextUtils.isEmpty(step.getThumbnailURL())) {
             return NO_MEDIA_STATE;
         }
         throw new IllegalStateException();
@@ -172,9 +181,9 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
     }
 
     private void setImage(String url) {
-        Picasso.with(context)
+        Glide.with(context)
                 .load(url)
-                .fit()
+                .centerCrop()
                 .placeholder(R.mipmap.ic_launcher)
                 .into(detailThumb);
     }
@@ -184,6 +193,7 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
             player = ExoPlayerFactory.newSimpleInstance(new DefaultRenderersFactory(getActivity()),
                     new DefaultTrackSelector(), new DefaultLoadControl());
             detailVideoView.setPlayer(player);
+            detailVideoView.setResizeMode(AspectRatioFrameLayout.RESIZE_MODE_FILL);
             player.setPlayWhenReady(playWhenReady);
             player.seekTo(currentWindow, playbackPosition);
         }
@@ -208,9 +218,16 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
 
     @SuppressLint("InlinedApi")
     private void hideSystemUi() {
-        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE && mTwoPane == false) {
+        int orientation = getResources().getConfiguration().orientation;
+        int orientationLandscape = Configuration.ORIENTATION_LANDSCAPE;
+        if (orientation == orientationLandscape) {
 
             detail_linear_layout.setVisibility(View.GONE);
+
+            ViewGroup.LayoutParams params = linearLayout.getLayoutParams();
+            params.height = ViewGroup.LayoutParams.MATCH_PARENT;
+            params.width = ViewGroup.LayoutParams.MATCH_PARENT;
+            linearLayout.setLayoutParams(params);
 
             detailVideoView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE
                     | View.SYSTEM_UI_FLAG_FULLSCREEN
@@ -248,6 +265,7 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
             detailButton.setVisibility(View.GONE);
             return;
         }
+        step = getStep(stepIndex);
         fragmentManager = getActivity().getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         DetailFragment detailFragment = new DetailFragment();
@@ -259,12 +277,14 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
     }
 
     @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putInt(STEP_INDEX_KEY, stepIndex);
+        outState.putParcelable(RECIPE_KEY, recipe);
+    }
+
+    @Override
     public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
         super.onViewStateRestored(savedInstanceState);
-
-        if (getActivity() instanceof StepsActivity) {
-            mTwoPane = true;
-        }
 
         if (mTwoPane) {
             detailButton.setVisibility(View.GONE);

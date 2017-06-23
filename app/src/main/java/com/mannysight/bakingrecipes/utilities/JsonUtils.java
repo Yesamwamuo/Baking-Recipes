@@ -5,7 +5,8 @@ import android.content.Context;
 import android.database.Cursor;
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
+import com.google.gson.JsonParser;
+import com.google.gson.JsonSyntaxException;
 import com.mannysight.bakingrecipes.model.Ingredient;
 import com.mannysight.bakingrecipes.model.Recipe;
 import com.mannysight.bakingrecipes.model.RecipeContentValues;
@@ -23,12 +24,21 @@ import java.util.List;
 
 public final class JsonUtils {
 
-    public static List<Recipe> getRecipeListFromJson(String jsonString) {
-        Gson gson = new Gson();
-        Type listType = new TypeToken<List<Recipe>>() {
-        }.getType();
-        List<Recipe> recipes = gson.fromJson(jsonString, listType);
-        return recipes;
+    public static <T> List<T> getRecipeListFromJson(String jsonString, Type type) {
+        if (!isValid(jsonString)) {
+            return null;
+        }
+        return new Gson().fromJson(jsonString, type);
+    }
+
+
+    public static boolean isValid(String json) {
+        try {
+            new JsonParser().parse(json);
+            return true;
+        } catch (JsonSyntaxException jse) {
+            return false;
+        }
     }
 
     public static RecipeContentValues getRecipeContentValues(List<Recipe> recipes) {

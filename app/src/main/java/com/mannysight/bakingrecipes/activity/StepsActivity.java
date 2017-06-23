@@ -25,7 +25,6 @@ public class StepsActivity extends AppCompatActivity {
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
-
     }
 
     @Override
@@ -40,18 +39,15 @@ public class StepsActivity extends AppCompatActivity {
             }
         }
 
-        if (findViewById(R.id.detail_fragment_container) != null) {
-            mTwoPane = true;
+        mTwoPane = getResources().getBoolean(R.bool.isTablet);
 
+        if (mTwoPane) {
             DetailFragment detailFragment = new DetailFragment();
             detailFragment.setStepIndex(0);
             FragmentManager fragmentManager = getSupportFragmentManager();
             fragmentManager.beginTransaction()
                     .add(R.id.detail_fragment_container, detailFragment)
                     .commit();
-
-        } else {
-            mTwoPane = false;
         }
     }
 }

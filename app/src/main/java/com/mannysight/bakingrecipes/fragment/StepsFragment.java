@@ -3,7 +3,6 @@ package com.mannysight.bakingrecipes.fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -16,7 +15,6 @@ import android.widget.TextView;
 
 import com.mannysight.bakingrecipes.R;
 import com.mannysight.bakingrecipes.activity.DetailActivity;
-import com.mannysight.bakingrecipes.activity.StepsActivity;
 import com.mannysight.bakingrecipes.adapter.StepAdapter;
 import com.mannysight.bakingrecipes.model.Ingredient;
 import com.mannysight.bakingrecipes.model.Recipe;
@@ -54,12 +52,10 @@ public class StepsFragment extends Fragment implements StepAdapter.StepAdapterOn
 
     }
 
-
     @Override
-    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
-        super.onViewStateRestored(savedInstanceState);
-        StepsActivity stepsActivity = (StepsActivity) getActivity();
-        mTwoPane = stepsActivity.mTwoPane;
+    public void onResume() {
+        super.onResume();
+        mTwoPane = getResources().getBoolean(R.bool.isTablet);
     }
 
     @Override
